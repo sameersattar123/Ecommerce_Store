@@ -1,0 +1,53 @@
+.newLetter {
+  width: 65%;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  background: linear-gradient(180deg, #fde1ff 0%, #e1ffea22 60%);
+  padding: 0 140px;
+  margin-bottom: 150px;
+  gap: 30px;
+  margin-top: 250px;
+}
+
+.newLetter h1 {
+  color: #454545;
+  font-size: 55px;
+  font-weight: 600;
+}
+.newLetter p {
+  color: #454545;
+  font-size: 20px;
+}
+
+.newLetter div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  width: 730px;
+  height: 70px;
+  border-radius: 80px;
+  border: 1px solid #e3e3e3;
+}
+
+.newLetter input {
+  border: none;
+  outline: none;
+  color: #616161;
+  font-size: 16px;
+  width: 500px;
+  margin-left: 30px;
+}
+
+.newLetter div button {
+  width: 210px;
+  height: 70px;
+  background-color: black;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
