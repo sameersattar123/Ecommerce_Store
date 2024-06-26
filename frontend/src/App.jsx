@@ -6,6 +6,7 @@ import Shop from "./pages/Shop";
 import LoginSignup from "./pages/LoginSignup";
 import Product from "./pages/Product";
 import ShopCategory from "./pages/ShopCategory";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route path=":productId" element={<Product />} />
           </Route>
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </>
   );
