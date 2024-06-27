@@ -43,7 +43,7 @@ const ProductDisplay = ({ product }) => {
         </div>
         <div className="ProductDisplay_right_size">
           <h1>Select Size</h1>
-          <div className="">
+          <div className="ProductDisplay_right_sizes">
             <div>S</div>
             <div>M</div>
             <div>L</div>
@@ -51,11 +51,11 @@ const ProductDisplay = ({ product }) => {
             <div>XXL</div>
           </div>
         </div>
-
-        <p>
+        <button>ADD TO CART</button>
+        <p className="ProductDisplay_right_category">
           <span>Category:</span>Women , T-Shirt , Crop Top
         </p>
-        <p>
+        <p className="ProductDisplay_right_category">
           <span>Tags:</span>Modern , Latest
         </p>
       </div>
