@@ -4,7 +4,7 @@ import { ShopContext } from "../../Context/ShopContext";
 import "./CartItems.css";
 
 const CartItems = () => {
-  const { all_product, cartItems, removeFromCart } = useContext(ShopContext);
+  const { all_product, cartItems, removeFromCart , getTotalCartAmount } = useContext(ShopContext);
   return (
     <div className="cartItems">
       <div className="cartItems_format_main">
@@ -47,7 +47,7 @@ const CartItems = () => {
           <div>
             <div className="cartItems_total_Items">
               <p>Subtotals</p>
-              <p>${0}</p>
+              <p>${getTotalCartAmount()}</p>
             </div>
             <hr />
             <div className="cartItems_total_Items">
@@ -57,7 +57,7 @@ const CartItems = () => {
             <hr />
             <div className="cartItems_total_Items">
               <p>Total</p>
-              <p>${0}</p>
+              <p>${getTotalCartAmount()}</p>
             </div>
           </div>
           <button>PROCEED TO CHECKOUT</button>
