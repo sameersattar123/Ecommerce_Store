@@ -7,8 +7,8 @@ import "./Navbar.css"
 const Navbar = () => {
   return (
     <div className='navbar'>
-<img src={navLogo} alt="" />
-<img src={navProfile} alt="" />
+<img src={navLogo} alt="" className='nav_logo' />
+<img src={navProfile} alt="" className='nav_profile' />
     </div>
   )
 }
