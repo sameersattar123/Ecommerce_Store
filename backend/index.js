@@ -1,18 +1,18 @@
 import express from "express";
-import mongoose, { mongo } from "mongoose";
-import path from "path";
+import mongoose from "mongoose";
+import path from "path"; 
 import cors from "cors";
 import multer from "multer";
 
 const app = express();
 
 app.use(express.json());
-
 app.use(cors());
 
+
 mongoose.connect(
-  "mongodb+srv://sameersattar1111:ecommerce@cluster0.lq6lapl.mongodb.net/"
-);
+  "mongodb+srv://sameersattar1111:ecommerce@cluster0.lq6lapl.mongodb.net/" 
+); 
 
 const storage = multer.diskStorage({
   destination: "./upload/images",
