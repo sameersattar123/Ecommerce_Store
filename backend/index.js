@@ -1,18 +1,18 @@
 import express from "express";
 import mongoose from "mongoose";
-import path from "path"; 
+import path from "path";
 import cors from "cors";
 import multer from "multer";
+import jwt from "jsonwebtoken";
 
 const app = express();
 
 app.use(express.json());
-app.use(cors()); 
- 
+app.use(cors());
 
 mongoose.connect(
-  "mongodb+srv://sameersattar1111:ecommerce@cluster0.lq6lapl.mongodb.net/" 
-); 
+  "mongodb+srv://sameersattar1111:ecommerce@cluster0.lq6lapl.mongodb.net/"
+);
 
 const storage = multer.diskStorage({
   destination: "./upload/images",
@@ -97,16 +97,97 @@ app.post("/addproduct", async (req, res) => {
   } catch (error) {
     res.json("error");
   }
-}); 
+});
 
-app.delete('/removeproduct' , async(req,res) => {
-let product = await Product.findOneAndDelete({id : req.body.id}) 
-res.json({ success: true, product });
-})
-app.get('/allproducts' , async(req,res) => {
-let allProducts = await Product.find({})
-res.json({ success: true,  allProducts });
-})
+app.delete("/removeproduct", async (req, res) => {
+  let product = await Product.findOneAndDelete({ id: req.body.id });
+  res.json({ success: true, product });
+});
+app.get("/allproducts", async (req, res) => {
+  let allProducts = await Product.find({});
+  res.json({ success: true, allProducts });
+});
+
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+  cartData: {
+    type: Object,
+  },
+});
+
+const User = mongoose.model("User", userSchema);
+
+app.post("/signup", async (req, res) => {
+  let user = await User.findOne({ email: req.body.email });
+  if (user) {
+    return res.json({ success: false, message: "Email already exists" });
+  }
+
+  let cart = {};
+
+  for (let i = 0; i < 300; i++) {
+    cart[i] = 0;
+  }
+
+  try {
+    const newUser = new User({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      cartData: cart,
+    });
+
+    await newUser.save();
+
+    const data = {
+      newUser: {
+        id: newUser.id,
+      },
+    };
+
+    const token = jwt.sign(data, "secret_ecom");
+    res.json({ success: true, token });
+  } catch (error) {
+    res.json({ success: false, message: "Failed to save user" });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  let user = await User.findOne({ email: req.body.email });
+  if (user) {
+    const passCompare = req.body.password === user.password
+    if(passCompare) {
+const data = {
+  user: {
+    id: user.id,
+  },
+}
+ 
+const token = jwt.sign(data, "secret_ecom");
+    res.json({ success: true, token });
+  } else {
+      res.json({ success: false,errors : "wrong password"});
+    }
+  } else {
+    res.json({ success: false, errors :"wrong email"});
+  }
+});
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
