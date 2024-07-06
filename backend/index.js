@@ -88,7 +88,7 @@ app.post("/addproduct", async (req, res) => {
       category: req.body.category,
       image: req.body.image,
       new_price: req.body.new_price,
-      old_price: req.body.old_price,
+      old_price: req.body.old_price, 
     });
     console.log(product);
     const savedProduct = await product.save();
@@ -96,7 +96,7 @@ app.post("/addproduct", async (req, res) => {
     res.json({ success: true, savedProduct });
   } catch (error) {
     res.json("error");
-  }
+  } 
 });
 
 app.delete("/removeproduct", async (req, res) => {
