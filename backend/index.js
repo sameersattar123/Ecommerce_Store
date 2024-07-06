@@ -98,7 +98,7 @@ app.post("/addproduct", async (req, res) => {
     res.json("error");
   } 
 });
-
+ 
 app.delete("/removeproduct", async (req, res) => {
   let product = await Product.findOneAndDelete({ id: req.body.id });
   res.json({ success: true, product });
@@ -106,6 +106,18 @@ app.delete("/removeproduct", async (req, res) => {
 app.get("/allproducts", async (req, res) => {
   let allProducts = await Product.find({});
   res.json({ success: true, allProducts });
+});
+app.get("/newcollections", async (req, res) => {
+  let products = await Product.find({});
+  let newcollections = products.slice(1).slice(-8);
+  console.log("new collection fetched")
+  res.json(newcollections);
+});
+app.get("/popularinwomen", async (req, res) => {
+  let products = await Product.find({category : "women"});
+  let popularInWomen = products.slice(0,4);
+  console.log("popular in women")
+  res.json(popularInWomen);
 });
 
 const userSchema = new mongoose.Schema({
