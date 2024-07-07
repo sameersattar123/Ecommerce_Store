@@ -188,7 +188,7 @@ app.post("/login", async (req, res) => {
 const data = {
   user: {
     id: user.id,
-  },
+  }, 
 }
  
 const token = jwt.sign(data, "secret_ecom");
@@ -200,6 +200,35 @@ const token = jwt.sign(data, "secret_ecom");
     res.json({ success: false, errors :"wrong email"});
   }
 });
+
+const fetchUser = async (req,res,next) => {
+const token = req.header('auth-token')
+if(!token) {
+res.status(401).send({errors : "please authenticate using valid information"})
+} else {
+  try {
+const data = jwt.verify(token , "secret_ecom");
+req.user = data.user;
+next();
+  } catch(error) {
+res.status(401).send({errors : "Please authenicate using a valid token"})
+  }
+}
+}
+
+app.post('/addtocart' ,fetchUser, async (req , res) => {
+ let userData = await User.findOne({_id : req.user.id}) 
+ userData.cartData[req.body.productId] += 1;
+ await User.findOneAndUpdate({_id : req.user.id} , {cartData : userData.cartData})
+ res.send("Added")
+})
+app.post('/removefromcart' ,fetchUser, async (req , res) => {
+ let userData = await User.findOne({_id : req.user.id}) 
+ if(userData.cartData[req.body.productId] > 0 )
+ userData.cartData[req.body.productId] -= 1;
+ await User.findOneAndUpdate({_id : req.user.id} , {cartData : userData.cartData})
+ res.send("Remove")
+})
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
