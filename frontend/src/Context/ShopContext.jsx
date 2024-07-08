@@ -14,11 +14,25 @@ const ShopContextProvider = ({ children }) => {
   const [all_product, setAll_Product] = useState([])
   console.log(all_product)
   const [cartItems, setCartItems] = useState(getDefaultCart());
-
+console.log(cartItems)
   useEffect(() => {
     fetch('http://localhost:5000/allproducts')
     .then((response) => response.json())
     .then((data) => setAll_Product(data.allProducts))
+
+    if (localStorage.getItem('auth-item')) {
+      fetch('http://localhost:5000/getcart' , {
+        method: 'POST',
+        headers: {
+          Accept : "application/form-data",
+          'Content-Type': 'application/json',
+          'auth-token': `${localStorage.getItem('auth-item')}`
+        },
+        body: '',
+      })
+      .then((response) => response.json())
+      .then((data) => setCartItems(data))
+    }
   }, [])
 
 

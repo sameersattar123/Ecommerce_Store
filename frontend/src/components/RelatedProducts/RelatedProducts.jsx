@@ -1,5 +1,4 @@
 import React from "react";
-import data_products from "../../utils/data";
 import "./RelatedProducts.css";
 import data_product from "../../utils/data";
 import Item from "../Item/Item";

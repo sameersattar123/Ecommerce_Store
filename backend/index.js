@@ -198,7 +198,7 @@ const token = jwt.sign(data, "secret_ecom");
     }
   } else {
     res.json({ success: false, errors :"wrong email"});
-  }
+  }  
 });
 
 const fetchUser = async (req,res,next) => {
@@ -214,21 +214,28 @@ next();
 res.status(401).send({errors : "Please authenicate using a valid token"})
   }
 }
-}
+} 
 
 app.post('/addtocart' ,fetchUser, async (req , res) => {
  let userData = await User.findOne({_id : req.user.id}) 
  userData.cartData[req.body.productId] += 1;
  await User.findOneAndUpdate({_id : req.user.id} , {cartData : userData.cartData})
  res.send("Added")
+}) 
+app.post('/getcart' ,fetchUser, async (req, res) => {
+ let userData = await User.findOne({_id : req.user.id}) 
+ res.json(userData.cartData)
 })
+
 app.post('/removefromcart' ,fetchUser, async (req , res) => {
  let userData = await User.findOne({_id : req.user.id}) 
- if(userData.cartData[req.body.productId] > 0 )
+ if(userData.cartData[req.body.productId] > 0 ) 
  userData.cartData[req.body.productId] -= 1;
  await User.findOneAndUpdate({_id : req.user.id} , {cartData : userData.cartData})
  res.send("Remove")
-})
+}) 
+
+
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
